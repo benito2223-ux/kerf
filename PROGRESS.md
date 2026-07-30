@@ -1,5 +1,27 @@
 # KERF — Journal d'avancement
 
+## 2026-07-30 (nuit, suite) — Premier push GitHub + démo publique Surge
+
+- Dépôt poussé sur `https://github.com/benito2223-ux/kerf.git` (branche `main`).
+  Un seul commit pour l'instant : tout le travail de cette session (cadrage,
+  maquette, P0, début P1).
+- **Attention pour la suite** : `kerf.surge.sh` héberge uniquement
+  `mockups/kerf-mockup.html` (statique) — **pas l'application Next.js**.
+  Surge ne sait servir que des fichiers statiques ; l'app réelle a de
+  l'auth, des Server Actions et des requêtes base à chaque page (voir le
+  build : presque toutes les routes sont marquées `ƒ` = dynamiques). Elle
+  ne peut pas tourner sur Surge sans perdre tout ça. La démo publique sert
+  à montrer la direction visuelle à un prospect ; l'app elle-même sera
+  déployée sur Vercel (décision déjà prise, `ARCHITECTURE.md §1`) une fois
+  une base connectée. Ne pas essayer de forcer un `next export` vers Surge
+  pour "faire pareil" : ça casserait silencieusement l'auth et toutes les
+  actions serveur.
+- Pour republier la démo après une modification du mockup : recopier
+  `mockups/kerf-mockup.html` en `index.html` dans un dossier temporaire
+  (Surge sert `index.html` par défaut, le nom du fichier source ne
+  convient pas tel quel), puis `npx surge <dossier> kerf.surge.sh`.
+
+
 > Entrée la plus récente en haut. Sert de mémoire partagée entre sessions et
 > entre IA différentes — mets à jour cette entrée (ou ajoute la tienne) après
 > tout travail significatif. Ne recrée pas ce qui existe déjà : lis avant d'écrire.
