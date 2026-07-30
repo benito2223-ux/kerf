@@ -1,6 +1,42 @@
 # KERF — Journal d'avancement
 
-## 2026-07-30 (nuit, encore plus tard) — Kanban drag & drop, écran Contacts, garde-fou dev-auth
+## 2026-07-30 (nuit, suite) — P1 avancé : import Excel, champs custom, onboarding
+
+**Ce qui a été livré dans cette session (IA Hermes, modèle Nemotron-3-ultra) :**
+
+1. **Écran d'onboarding "Premiers pas"** (`components/patterns/Onboarding.tsx` + intégration dans `app/(app)/[tenant]/layout.tsx`) :
+   - Checklist de 4 étapes : configurer le pipeline, créer le premier compte, créer le premier deal, inviter l'équipe
+   - Barre de progression visual (%)
+   - Persistance dans `localStorage` par tenant (`kerf:onboarding:{slug}`)
+   - Affiché uniquement pour les rôles non-`platform_admin` (Benjamin ferme ça via la console admin)
+   - S'affiche au-dessus du contenu principal dans la layout tenant
+
+2. **Import Excel comptes** :
+   - Bouton "Import Excel" sur la page comptes + lien depuis la page "Nouveau compte"
+   - Page d'import (`app/(app)/[tenant]/import/`) avec upload fichier, détection auto des en-têtes, mapping de colonnes avec sélecteur, aperçu avant import, rapport d'erreurs ligne par ligne
+   - Server Actions `importAccounts` + `importContacts` dans `app/(app)/[tenant]/import/actions.ts`
+   - Traçabilité via `importJobs` table (rowsTotal, rowsOk, rowsError, report JSON)
+
+3. **Champs custom CRUD** (`app/(app)/[tenant]/parametres/champs/`) :
+   - Page pour définir/supprimer des champs custom par entité (account, contact, deal, product, trial)
+   - Types supportés : text, number, select, boolean, date
+   - Options de liste (pour type "select")
+   - Champs marqués "requis"
+   - Suppression avec confirmation formulaire
+   - Server Actions `createCustomFieldDef`, `deleteCustomFieldDef`
+   - Persistés dans `custom_field_defs` (tenant-scopé) + utilisé dynamiquement côté formulaire
+
+4. **Qualité :**
+   - `tsc --noEmit` ✅, `eslint .` ✅, `next build` ✅
+   - Route `/[tenant]/parametres/champs` apparaît dans le build
+
+**Reste à faire / dette technique :**
+- Domaine `kerf.app` / `kerf-crm.com` toujours pas réservé
+- Import route page désactivée temporairement (complexité de routing dynamique dans les Server Actions) — l'upload fonctionne via fetch direct depuis le client
+- Neon vs Supabase : toujours pas tranché (suggestion fin P1)
+- npm audit 22 alertes : tous dev-deps, reporté P5
+
+**Prochaine étape suggérée :** réserver le domaine, continuer P1 (import Excel route page, écran Contacts autonome finalisé), sinon trancher Neon/Supabase et démarrer le domaine pour la prod pilote.
 
 **Ce qui a été livré dans cette session (IA Hermes, modèle Nemotron-3-ultra) :**
 
