@@ -514,6 +514,56 @@
   .preview-card .pill { background: color-mix(in srgb, var(--preview-accent, var(--accent)) 14%, var(--surface)); color: var(--preview-accent, var(--accent)); font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 20px; display: inline-block; }
   .editor-save { display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; }
 
+  /* ---------- Screen 5: Premiers pas (onboarding) ---------- */
+  .onboarding-stage { flex: 1; overflow: auto; display: flex; justify-content: center; padding: 40px 24px; }
+  .onboarding-col { width: 560px; flex: none; }
+  .onboarding-head { margin-bottom: 22px; }
+  .onboarding-head h1 { font-size: 19px; font-weight: 700; margin: 0 0 4px; }
+  .onboarding-head p { font-size: 13px; color: var(--muted); margin: 0; }
+
+  .progress-track { height: 8px; border-radius: 20px; background: var(--border); overflow: hidden; margin: 16px 0 6px; }
+  .progress-fill { height: 100%; border-radius: 20px; background: var(--success); transition: width 0.4s ease; }
+  .progress-label { font-size: 11.5px; color: var(--faint); font-weight: 600; }
+  .progress-label b { color: var(--success); font-family: var(--font-mono); }
+
+  .step-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+  .step-card {
+    display: flex; align-items: flex-start; gap: 14px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 16px;
+  }
+  .step-card.done { background: var(--success-weak); border-color: var(--success); }
+  .step-check {
+    width: 24px; height: 24px; border-radius: 50%; flex: none; display: flex; align-items: center;
+    justify-content: center; font-size: 13px; font-weight: 700; margin-top: 1px;
+    border: 1.5px solid var(--border-strong); color: transparent;
+  }
+  .step-card.done .step-check { background: var(--success); border-color: var(--success); color: #fff; }
+  .step-card.current .step-check { border-color: var(--accent); }
+  .step-body { flex: 1; }
+  .step-title { font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 8px; }
+  .step-card.done .step-title { color: var(--success); text-decoration: line-through; text-decoration-color: var(--success); text-decoration-thickness: 1.5px; }
+  .step-hint { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+  .step-cta {
+    margin-top: 9px; display: inline-flex; align-items: center; gap: 6px; font-size: 12.2px; font-weight: 700;
+    color: var(--accent); cursor: pointer;
+  }
+  .step-example {
+    margin-top: 10px; font-size: 12px; background: var(--canvas); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 10px; color: var(--muted);
+  }
+  .step-example b { color: var(--text); }
+  .step-example .tag-done { color: var(--success); font-weight: 700; }
+  .step-badge {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: var(--faint);
+    background: var(--canvas); border: 1px solid var(--border); border-radius: 20px; padding: 1px 8px;
+  }
+  .step-card.current .step-badge { color: var(--accent); background: var(--accent-weak); border-color: var(--accent-weak-strong); }
+
+  .onboarding-note {
+    margin-top: 20px; font-size: 12px; color: var(--faint); display: flex; align-items: flex-start; gap: 8px;
+    background: var(--canvas); border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 13px;
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .kcard, .btn, .chip, .nav-item { transition: background 0.12s ease, border-color 0.12s ease; }
   }
@@ -538,6 +588,7 @@
 
     <nav class="primary">
       <div class="nav-group-label">Vue d'ensemble</div>
+      <div class="nav-item" data-target="onboarding"><span class="ic">✓</span> Premiers pas</div>
       <div class="nav-item disabled"><span class="ic">▢</span> Tableau de bord <span class="soon">P4</span></div>
 
       <div class="nav-group-label">CRM</div>
@@ -577,6 +628,7 @@
         <button data-view="deals">2 · Deals</button>
         <button data-view="essai">3 · Essai (mobile)</button>
         <button data-view="admin">4 · Admin marque</button>
+        <button data-view="onboarding">5 · Premiers pas</button>
       </div>
       <div class="topbar-spacer"></div>
       <div class="search-box">🔍 Rechercher un compte, un devis…<span class="kbd" style="margin-left:auto"><kbd>⌘K</kbd></span></div>
@@ -962,6 +1014,61 @@
       </div>
     </section>
 
+    <!-- ================= VIEW 5 : PREMIERS PAS (onboarding) ================= -->
+    <section class="view" id="view-onboarding">
+      <div class="onboarding-stage">
+        <div class="onboarding-col">
+          <div class="onboarding-head">
+            <h1>Bienvenue chez Métral Diffusion Industrielle</h1>
+            <p>Quatre étapes pour que votre équipe soit opérationnelle sur KERF.</p>
+          </div>
+
+          <div class="progress-track"><div class="progress-fill" style="width:25%"></div></div>
+          <div class="progress-label"><b>1 / 4</b> étapes terminées</div>
+
+          <div class="step-list">
+            <div class="step-card done">
+              <div class="step-check">✓</div>
+              <div class="step-body">
+                <div class="step-title">Confirmez votre pipeline commercial</div>
+                <div class="step-hint">Les étapes par défaut sont déjà en place — renommez-les si votre process diffère.</div>
+                <div class="step-example">Qualification → Essai en cours → Devis envoyé → Négociation → <span class="tag-done">Gagné</span></div>
+              </div>
+            </div>
+
+            <div class="step-card current">
+              <div class="step-check"></div>
+              <div class="step-body">
+                <div class="step-title">Créez votre premier compte client <span class="step-badge">à faire</span></div>
+                <div class="step-hint">Un compte réel de votre portefeuille — vous pourrez y rattacher un deal juste après.</div>
+                <div class="step-cta">+ Créer un compte →</div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-check"></div>
+              <div class="step-body">
+                <div class="step-title">Enregistrez votre premier deal</div>
+                <div class="step-hint">Rattachez-le au compte que vous venez de créer pour voir le pipeline prendre vie.</div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-check"></div>
+              <div class="step-body">
+                <div class="step-title">Invitez votre équipe</div>
+                <div class="step-hint">Chaque commercial invité voit l'ensemble des comptes du tenant — pas seulement les siens.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="onboarding-note">
+            ℹ️ Cette liste reste accessible depuis « Premiers pas » tant qu'elle n'est pas terminée — rien n'est bloqué si vous préférez explorer l'app dans le désordre.
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 </div>
 
@@ -972,7 +1079,8 @@
     comptes: document.getElementById('view-comptes'),
     deals: document.getElementById('view-deals'),
     essai: document.getElementById('view-essai'),
-    admin: document.getElementById('view-admin')
+    admin: document.getElementById('view-admin'),
+    onboarding: document.getElementById('view-onboarding')
   };
 
   function show(name) {

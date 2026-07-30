@@ -1,5 +1,35 @@
 # KERF — Journal d'avancement
 
+## 2026-07-30 (nuit, encore) — 5ᵉ écran maquette : onboarding "Premiers pas"
+
+Benjamin a demandé de repenser l'UX en s'inspirant d'une vidéo sur la
+psychologie UX des apps "addictives" (goal gradient, smart defaults,
+IKEA effect, endowment effect, reciprocity, loss aversion).
+
+**Décision** : appliquer sélectivement, pas en bloc. Une bonne partie de
+cette vidéo vise des apps consumer (Duolingo, Spotify) dont l'objectif est
+la rétention/l'engagement — ce n'est pas l'objectif de KERF, un outil pro
+qu'on veut *efficace*, pas "addictif" (voir `CLAUDE.md`, densité d'info
+choisie jamais subie). Écarté explicitement : urgence artificielle,
+gamification, boucles de notification. Retenu et intégré à la maquette :
+Goal Gradient + IKEA/Endowment effect, sous la forme d'un **écran
+"Premiers pas"** (5ᵉ écran de `mockups/kerf-mockup.html`) — checklist
+d'onboarding avec barre de progression (confirmer le pipeline, créer un
+premier compte, créer un premier deal, inviter l'équipe).
+
+**Point de vigilance respecté** : l'IKEA/Endowment effect suggérerait de
+laisser le tenant personnaliser lui-même sa couleur/logo pour se sentir
+propriétaire — **refusé volontairement**, ça contredirait la règle déjà
+verrouillée (`ARCHITECTURE.md §3.6`) : la marque reste réservée à
+`platform_admin`. L'ownership vient plutôt du pipeline et des premiers
+comptes/deals créés, pas de la couleur.
+
+Republié sur `kerf.surge.sh` et sur l'artifact Claude (même URL qu'avant).
+Pas encore codé dans l'app réelle — c'est de la maquette, comme d'habitude
+avant le code.
+
+---
+
 ## 2026-07-30 (nuit, suite) — Premier push GitHub + démo publique Surge
 
 - Dépôt poussé sur `https://github.com/benito2223-ux/kerf.git` (branche `main`).
