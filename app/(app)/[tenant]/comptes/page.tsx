@@ -26,7 +26,7 @@ export default async function ComptesPage({
   );
 
   return (
-    <main style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <main style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div
         style={{
           display: "flex",
@@ -67,6 +67,20 @@ export default async function ComptesPage({
           }}
         >
           + Nouveau compte
+        </Link>
+        <Link
+          href={`/${tenantSlug}/import?entity=comptes`}
+          style={{
+            background: "var(--canvas)",
+            color: "var(--accent)",
+            border: "1px solid var(--border)",
+            borderRadius: "var(--radius-sm)",
+            padding: "7px 13px",
+            fontSize: 12.8,
+            fontWeight: 600,
+          }}
+        >
+          Import Excel
         </Link>
       </div>
 

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createAccount } from "../actions";
 import { accountTypeLabels, accountTypeValues } from "../../../../../lib/validation/account";
 
@@ -53,6 +54,12 @@ export default async function NouveauComptePage({ params }: { params: Promise<{ 
           Créer le compte
         </button>
       </form>
+
+      <p style={{ marginTop: 24, fontSize: 12, color: "var(--faint)" }}>
+        <Link href={`/${tenantSlug}/import?entity=comptes`} style={{ color: "var(--accent)" }}>
+          Importer des comptes depuis Excel/CSV →
+        </Link>
+      </p>
     </main>
   );
 }

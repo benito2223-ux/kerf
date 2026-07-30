@@ -4,6 +4,7 @@ import { requireTenantMatch } from "../../../lib/auth/guard";
 import { deriveAccentTokens, meetsContrastThreshold } from "../../../lib/branding/derive-accent";
 import { Sidebar } from "../../../components/patterns/Sidebar";
 import { DevAuthBanner } from "../../../components/patterns/DevAuthBanner";
+import { OnboardingPage } from "../../../components/patterns/Onboarding";
 
 export default async function TenantLayout({
   children,
@@ -32,8 +33,6 @@ export default async function TenantLayout({
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
       {brandStyle && (
-        // Personnalisation par tenant (ARCHITECTURE.md §3.6) : seule la
-        // couleur d'accent change, tous les autres tokens restent fixes.
         <style
           dangerouslySetInnerHTML={{
             __html: `:root {
@@ -54,6 +53,9 @@ export default async function TenantLayout({
       />
       <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
         <DevAuthBanner />
+        {session.role !== "platform_admin" && (
+          <OnboardingPage tenantSlug={tenantSlug} />
+        )}
         <div style={{ flex: 1, minHeight: 0 }}>{children}</div>
       </div>
     </div>
