@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from "./supabase-server";
+import { getDevSession } from "./dev-session";
 
 export type AppRole = "platform_admin" | "tenant_admin" | "sales" | "viewer";
 
@@ -15,6 +16,14 @@ export interface AppSession {
  * §3.3), il ne doit jamais y avoir deux sources de vérité différentes.
  */
 export async function getSession(): Promise<AppSession | null> {
+  // Bascule de test locale (ENABLE_DEV_AUTH=1) — voir dev-session.ts.
+  // Sans cette variable, getDevSession() renvoie toujours null et ce
+  // chemin n'existe pas : aucun risque sur le vrai parcours Supabase.
+  const dev = await getDevSession();
+  if (dev) {
+    return { userId: dev.userId, email: dev.email, tenantId: dev.tenantId, role: dev.role };
+  }
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },

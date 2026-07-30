@@ -69,6 +69,7 @@ export default async function CompteDetailPage({
             <input name="lastName" placeholder="Nom" required style={smallInput} />
             <input name="roleTitle" placeholder="Fonction" style={smallInput} />
             <input name="email" type="email" placeholder="Email" style={smallInput} />
+            <input name="phone" placeholder="Téléphone" style={smallInput} />
             <button type="submit" style={smallButton}>
               + Ajouter
             </button>

@@ -3,6 +3,13 @@ import { NextResponse, type NextRequest } from "next/server";
 
 /** Rafraîchit la session Supabase à chaque requête (pattern @supabase/ssr standard). */
 export async function middleware(request: NextRequest) {
+  // Mode connexion de test (voir lib/auth/dev-session.ts) : pas de Supabase
+  // du tout, rien à rafraîchir. Sans ce garde-fou, le middleware plante
+  // sur chaque requête faute d'URL/clé Supabase configurées.
+  if (process.env.ENABLE_DEV_AUTH === "1") {
+    return NextResponse.next({ request });
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(

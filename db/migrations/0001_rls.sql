@@ -26,6 +26,13 @@ grant usage on schema public to authenticated;
 grant select, insert, update, delete on all tables in schema public to authenticated;
 alter default privileges in schema public grant select, insert, update, delete on tables to authenticated;
 
+-- Sur un rôle superuser (souvent le cas côté Supabase), SET ROLE marche
+-- sans ça. Sur un rôle restreint mais avec CREATEROLE (le cas de Neon,
+-- qui n'accorde pas de superuser complet), SET ROLE exige une adhésion
+-- explicite — sans cette ligne, withTenantScope() échoue avec
+-- "permission denied to set role" et la RLS ne s'applique jamais.
+grant authenticated to current_user;
+
 -- ---------------------------------------------------------------------------
 -- Fonctions de lecture du JWT (STABLE : évaluées une fois par requête, pas
 -- par ligne — sans ça chaque policy re-décode le JWT à chaque ligne scannée)
@@ -47,6 +54,18 @@ begin
       select coalesce(nullif(current_setting('request.jwt.claims', true), ''), '{}')::jsonb
     $f$;
   end if;
+end $$;
+
+-- `authenticated` doit pouvoir appeler auth.jwt() pour que les policies
+-- fonctionnent — sur un Postgres nu ce droit n'existe pas par défaut.
+-- Sur Supabase, la plateforme gère déjà ces droits sur son propre schéma
+-- `auth` ; si on n'a pas la permission de les redéfinir, on l'ignore.
+do $$
+begin
+  execute 'grant usage on schema auth to authenticated';
+  execute 'grant execute on function auth.jwt() to authenticated';
+exception when insufficient_privilege then
+  null;
 end $$;
 
 create or replace function current_tenant_id() returns uuid

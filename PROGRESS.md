@@ -1,5 +1,68 @@
 # KERF — Journal d'avancement
 
+## 2026-07-30 (nuit, tard) — Première vérification réelle dans le navigateur
+
+Benjamin a demandé de tester l'app réellement. Un projet Supabase gratuit
+supplémentaire était impossible (2/2 projets déjà utilisés par SPK sur son
+compte) ; Firebase écarté (incompatible avec l'architecture Postgres/RLS
+déjà construite, et aucun outil Firebase connecté). **Décision** : base de
+test sur **Neon** (Postgres gratuit, ne touche à rien chez SPK) — projet
+créé par Benjamin, connexion transmise, tout le reste fait de ce côté.
+
+**Neon n'a pas d'Auth** (juste Postgres) — ajout d'une **connexion de
+secours locale**, `lib/auth/dev-session.ts` (cookie signé HMAC, aucune
+vérification de mot de passe), activée uniquement par `ENABLE_DEV_AUTH=1`,
+écran dédié `/dev-connexion` (le vrai `/connexion` Supabase n'est pas
+touché). `getSession()` vérifie ce cookie en premier et ignore
+silencieusement ce chemin si la variable n'est pas définie — donc aucun
+risque que ça s'active par erreur en production.
+
+**Trois vrais bugs trouvés et corrigés en testant en conditions réelles**
+(aucun n'était détectable par typecheck/lint/tests unitaires seuls — la
+preuve qu'il fallait vraiment cliquer dans l'app) :
+1. `db/migrations/0001_rls.sql` supposait que le rôle de connexion obtenait
+   automatiquement le droit `SET ROLE authenticated` après avoir créé ce
+   rôle — vrai sur un superuser (Supabase), faux sur Neon (`neondb_owner`
+   n'est pas superuser). Ajout d'un `grant authenticated to current_user`
+   explicite, plus `grant usage on schema auth` / `grant execute on
+   function auth.jwt()` au même rôle (sans ça : "permission denied for
+   schema auth"). Sans cette correction, **la RLS ne fonctionnait tout
+   simplement pas via l'application** — elle passait le test statique
+   (policies présentes) mais échouait dès qu'on l'utilisait pour de vrai.
+2. `middleware.ts` appelait Supabase sur **toutes les requêtes**, y compris
+   en mode test sans URL/clé Supabase — plantait l'app entière. Ajout d'un
+   court-circuit si `ENABLE_DEV_AUTH=1`.
+3. Le formulaire d'ajout de contact (fiche compte) n'avait pas de champ
+   téléphone alors que le Server Action l'attendait — `Error: Expected
+   string, received null`. Champ ajouté.
+4. `/dev-connexion` interroge la base sans qu'aucune API dynamique de
+   Next.js le signale — `next build` essayait de la pré-générer en statique
+   et plantait faute de base accessible au moment du build. Ajout de
+   `export const dynamic = "force-dynamic"`.
+
+**Vérifié pour de vrai, dans un navigateur, contre la vraie base Neon :**
+connexion via les deux profils seedés (commercial, admin plateforme),
+création d'un compte réel (Mécaprec SAS), ajout d'un contact, création
+d'un deal (42 000 €), déplacement du deal de "Qualification" à "Essai en
+cours" via le sélecteur — **le kanban se met à jour et le total par
+colonne change en conséquence**. Confirmé aussi que le garde de rôle
+bloque bien un commercial qui tente d'accéder à `/admin` (redirigé vers
+"Accès refusé"). `tsc --noEmit`, `eslint .`, les 16 tests unitaires et
+`next build` sont repassés verts après corrections.
+
+**Pas encore fait / pas testé :**
+- L'écran "Premiers pas" (onboarding) n'existe que dans la maquette —
+  jamais branché à du vrai code, contrairement à Comptes/Deals.
+- Contacts et interactions ne sont testés que depuis la fiche compte, pas
+  en tant qu'écrans autonomes (ils n'existent pas encore).
+- Champs custom, import Excel, recherche globale, essais, devis :
+  toujours pas commencés (reste de P1 à P3).
+- Neon reste une base **de test**, pas la décision finale — voir
+  `ARCHITECTURE.md §1` : Supabase (ou une autre alternative) sera tranché
+  à la fin du projet.
+
+---
+
 ## 2026-07-30 (nuit, encore) — 5ᵉ écran maquette : onboarding "Premiers pas"
 
 Benjamin a demandé de repenser l'UX en s'inspirant d'une vidéo sur la

@@ -9,18 +9,44 @@ toute contribution**, y compris par une autre IA (voir [`CLAUDE.md`](CLAUDE.md))
 
 ```bash
 npm install
-cp .env.example .env.local   # renseigner les variables Supabase
+cp .env.example .env.local   # renseigner les variables
 npm run dev
 ```
 
-Nécessite un projet Supabase (région UE) avec le schéma appliqué :
+Nécessite une base Postgres (Supabase région UE, ou toute alternative —
+Neon par exemple, voir "Mode test" ci-dessous) avec le schéma appliqué :
 
 ```bash
 npm run db:generate   # génère la migration SQL depuis lib/db/schema.ts
 npm run db:migrate    # applique les tables
 # puis appliquer manuellement db/migrations/0001_rls.sql (isolation RLS,
-# voir ARCHITECTURE.md §3) — ce fichier n'est pas généré par Drizzle Kit.
+# voir ARCHITECTURE.md §3) — ce fichier n'est pas généré par Drizzle Kit :
+node scripts/run-sql.mjs db/migrations/0001_rls.sql
 ```
+
+### Mode test (sans Supabase)
+
+Tant qu'aucun fournisseur d'auth définitif n'est branché (voir
+`PROGRESS.md`), l'app peut tourner avec une base Postgres nue (ex. Neon,
+gratuit) et une connexion de secours qui ne vérifie pas de mot de passe :
+
+```bash
+# .env.local
+ENABLE_DEV_AUTH=1
+DEV_SESSION_SECRET=<valeur aléatoire>
+DATABASE_URL=<connexion Postgres>
+```
+
+Puis seeder un tenant et deux utilisateurs de test :
+
+```bash
+DATABASE_URL=<connexion Postgres> node scripts/seed-dev.mjs
+```
+
+Se connecter ensuite sur `/dev-connexion` (pas `/connexion`, qui reste le
+vrai écran Supabase). **`ENABLE_DEV_AUTH=1` ne doit jamais être défini en
+production** — sans cette variable, `/dev-connexion` refuse de fonctionner
+et `getSession()` ignore entièrement ce mécanisme.
 
 ## Scripts
 
