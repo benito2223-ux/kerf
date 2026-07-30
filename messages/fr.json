@@ -1,0 +1,34 @@
+{
+  "app": {
+    "name": "KERF"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "accounts": "Comptes",
+    "contacts": "Contacts",
+    "deals": "Deals",
+    "products": "Produits",
+    "quotes": "Devis",
+    "trials": "Essais",
+    "reports": "Rapports",
+    "settings": "Paramètres",
+    "platformAdmin": "Admin plateforme · vous seul",
+    "brandsAndTenants": "Marques & tenants"
+  },
+  "auth": {
+    "loginTitle": "Connexion",
+    "email": "Adresse email",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "error": "Adresse email ou mot de passe incorrect."
+  },
+  "accessDenied": {
+    "title": "Accès refusé",
+    "body": "Vous n'avez pas les droits nécessaires pour accéder à cette page.",
+    "backLink": "Retour au tableau de bord"
+  },
+  "dashboard": {
+    "welcome": "Bienvenue sur KERF",
+    "socleNotice": "Le socle applicatif est en cours de construction (phase P0). Les modules CRM, catalogue, devis et essais arrivent dans les phases suivantes — voir PROGRESS.md."
+  }
+}

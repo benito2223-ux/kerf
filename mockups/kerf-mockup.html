@@ -1,0 +1,1040 @@
+<!-- KERF — maquette statique des 3 écrans structurants -->
+<title>KERF — Maquette produit</title>
+<style>
+  :root {
+    --canvas: #F5F7F9;
+    --surface: #FFFFFF;
+    --surface-raised: #FFFFFF;
+    --border: #E1E7ED;
+    --border-strong: #C9D3DC;
+    --text: #17222D;
+    --muted: #5B6B78;
+    --faint: #8B98A3;
+    --accent: #2A5C86;
+    --accent-hover: #204a6f;
+    --accent-weak: #E9F1F8;
+    --accent-weak-strong: #D3E4F1;
+    --success: #1F7A4D;
+    --success-weak: #E8F4EE;
+    --warn: #A6650D;
+    --warn-weak: #FBF0E1;
+    --danger: #B3392C;
+    --danger-weak: #FBEAE7;
+    --radius-sm: 5px;
+    --radius: 8px;
+    --radius-lg: 14px;
+    --shadow-card: 0 1px 2px rgba(23,34,45,0.04), 0 1px 0 rgba(23,34,45,0.03);
+    --shadow-pop: 0 8px 24px rgba(23,34,45,0.12), 0 2px 6px rgba(23,34,45,0.06);
+    --font-ui: -apple-system, "Segoe UI", "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Mono", "SF Mono", "JetBrains Mono", Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --canvas: #10161D;
+      --surface: #171F28;
+      --surface-raised: #1D2731;
+      --border: #2B3946;
+      --border-strong: #3A4B59;
+      --text: #E7EDF2;
+      --muted: #9AACB9;
+      --faint: #647685;
+      --accent: #6FA8D6;
+      --accent-hover: #8ABBE2;
+      --accent-weak: #1D3245;
+      --accent-weak-strong: #26425A;
+      --success: #4FBE8A;
+      --success-weak: #16281F;
+      --warn: #E0A24E;
+      --warn-weak: #2E2410;
+      --danger: #E2685A;
+      --danger-weak: #341C18;
+      --shadow-card: 0 1px 2px rgba(0,0,0,0.3);
+      --shadow-pop: 0 12px 28px rgba(0,0,0,0.45);
+    }
+  }
+  :root[data-theme="dark"] {
+    --canvas: #10161D; --surface: #171F28; --surface-raised: #1D2731;
+    --border: #2B3946; --border-strong: #3A4B59; --text: #E7EDF2;
+    --muted: #9AACB9; --faint: #647685; --accent: #6FA8D6; --accent-hover: #8ABBE2;
+    --accent-weak: #1D3245; --accent-weak-strong: #26425A;
+    --success: #4FBE8A; --success-weak: #16281F; --warn: #E0A24E; --warn-weak: #2E2410;
+    --danger: #E2685A; --danger-weak: #341C18;
+    --shadow-card: 0 1px 2px rgba(0,0,0,0.3); --shadow-pop: 0 12px 28px rgba(0,0,0,0.45);
+  }
+  :root[data-theme="light"] {
+    --canvas: #F5F7F9; --surface: #FFFFFF; --surface-raised: #FFFFFF;
+    --border: #E1E7ED; --border-strong: #C9D3DC; --text: #17222D;
+    --muted: #5B6B78; --faint: #8B98A3; --accent: #2A5C86; --accent-hover: #204a6f;
+    --accent-weak: #E9F1F8; --accent-weak-strong: #D3E4F1;
+    --success: #1F7A4D; --success-weak: #E8F4EE; --warn: #A6650D; --warn-weak: #FBF0E1;
+    --danger: #B3392C; --danger-weak: #FBEAE7;
+    --shadow-card: 0 1px 2px rgba(23,34,45,0.04), 0 1px 0 rgba(23,34,45,0.03);
+    --shadow-pop: 0 8px 24px rgba(23,34,45,0.12), 0 2px 6px rgba(23,34,45,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; background: var(--canvas); color: var(--text);
+    font-family: var(--font-ui); font-size: 14px; line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent-weak-strong); }
+
+  .app { display: flex; min-height: 100vh; }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    width: 232px; flex: none; background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; padding: 18px 12px;
+    position: sticky; top: 0; height: 100vh;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 9px;
+    padding: 4px 8px 18px 8px; margin-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand-mark {
+    width: 26px; height: 26px; border-radius: 6px;
+    background: var(--accent); position: relative; flex: none;
+  }
+  .brand-mark::before, .brand-mark::after {
+    content: ""; position: absolute; background: var(--surface);
+  }
+  .brand-mark::before { width: 12px; height: 2px; top: 12px; left: 7px; transform: rotate(-32deg); }
+  .brand-mark::after { width: 7px; height: 2px; top: 8px; left: 14px; transform: rotate(-32deg); }
+  .brand-name { font-weight: 700; font-size: 15.5px; letter-spacing: 0.2px; }
+  .brand-sub { font-size: 10.5px; color: var(--faint); margin-top: 1px; letter-spacing: 0.3px; }
+
+  .tenant-pill {
+    display: flex; align-items: center; gap: 8px; margin: 14px 4px 10px 4px;
+    padding: 7px 9px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--canvas); font-size: 12.5px; color: var(--muted); cursor: pointer;
+  }
+  .tenant-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); flex: none; }
+  .tenant-pill b { color: var(--text); font-weight: 600; }
+  .tenant-pill .chev { margin-left: auto; color: var(--faint); font-size: 10px; }
+
+  nav.primary { display: flex; flex-direction: column; gap: 1px; margin-top: 6px; }
+  .nav-group-label {
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.6px;
+    color: var(--faint); padding: 14px 10px 6px 10px; font-weight: 600;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+    border-radius: var(--radius-sm); color: var(--muted); font-size: 13.3px;
+    font-weight: 500; cursor: pointer; user-select: none; border: 1px solid transparent;
+  }
+  .nav-item .ic { width: 16px; height: 16px; flex: none; opacity: 0.85; }
+  .nav-item:hover { background: var(--canvas); color: var(--text); }
+  .nav-item.active { background: var(--accent-weak); color: var(--accent); font-weight: 600; }
+  .nav-item.active .ic { opacity: 1; }
+  .nav-item.disabled { opacity: 0.4; cursor: default; }
+  .nav-item.disabled:hover { background: transparent; color: var(--muted); }
+  .nav-item .soon {
+    margin-left: auto; font-size: 9.5px; font-weight: 600; color: var(--faint);
+    background: var(--canvas); border: 1px solid var(--border); border-radius: 20px;
+    padding: 1px 6px; letter-spacing: 0.3px;
+  }
+
+  .sidebar-foot { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); }
+  .user-row { display: flex; align-items: center; gap: 9px; padding: 8px 8px; border-radius: var(--radius-sm); cursor: pointer; }
+  .user-row:hover { background: var(--canvas); }
+  .avatar {
+    width: 27px; height: 27px; border-radius: 50%; background: var(--accent-weak-strong);
+    color: var(--accent); display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex: none;
+  }
+  .user-row .name { font-size: 12.6px; font-weight: 600; }
+  .user-row .role { font-size: 11px; color: var(--faint); }
+
+  /* ---------- Main ---------- */
+  .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+  .topbar {
+    height: 56px; flex: none; border-bottom: 1px solid var(--border);
+    background: var(--surface); display: flex; align-items: center; gap: 14px;
+    padding: 0 22px; position: sticky; top: 0; z-index: 5;
+  }
+  .screen-switch {
+    display: flex; gap: 2px; background: var(--canvas); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 2px;
+  }
+  .screen-switch button {
+    font-family: inherit; font-size: 12.4px; font-weight: 600; color: var(--muted);
+    background: transparent; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;
+  }
+  .screen-switch button.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-card); }
+  .topbar-title { font-size: 15px; font-weight: 700; }
+  .topbar-spacer { flex: 1; }
+  .search-box {
+    display: flex; align-items: center; gap: 7px; background: var(--canvas);
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 6px 10px; width: 260px; color: var(--faint); font-size: 12.6px;
+  }
+  .search-box kbd {
+    margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: var(--faint);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px;
+  }
+  .btn {
+    font-family: inherit; font-size: 12.8px; font-weight: 600; border-radius: var(--radius-sm);
+    padding: 7px 13px; cursor: pointer; border: 1px solid var(--border); background: var(--surface);
+    color: var(--text); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  }
+  .btn:hover { border-color: var(--border-strong); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: var(--accent-hover); }
+
+  .view { display: none; flex: 1; min-height: 0; flex-direction: column; }
+  .view.on { display: flex; }
+
+  /* ---------- Screen 1: Comptes ---------- */
+  .toolbar {
+    display: flex; align-items: center; gap: 10px; padding: 16px 22px;
+    border-bottom: 1px solid var(--border); flex-wrap: wrap;
+  }
+  .chip {
+    font-size: 12.2px; font-weight: 500; color: var(--muted); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 20px; padding: 5px 11px;
+    display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+  }
+  .chip .chev { font-size: 9px; color: var(--faint); }
+  .chip.active { background: var(--accent-weak); border-color: var(--accent-weak-strong); color: var(--accent); font-weight: 600; }
+  .chip.add { border-style: dashed; color: var(--faint); }
+  .toolbar-spacer { flex: 1; }
+  .count-tag { font-size: 12px; color: var(--faint); }
+
+  .table-wrap { flex: 1; overflow: auto; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.data thead th {
+    position: sticky; top: 0; background: var(--surface); z-index: 2;
+    text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px;
+    color: var(--faint); font-weight: 600; padding: 10px 14px; border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  table.data thead th.num { text-align: right; }
+  table.data tbody td {
+    padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: middle;
+  }
+  table.data tbody tr { background: var(--surface); cursor: pointer; }
+  table.data tbody tr:hover { background: var(--canvas); }
+  .acc-cell { display: flex; align-items: center; gap: 10px; }
+  .acc-logo {
+    width: 30px; height: 30px; border-radius: 7px; background: var(--accent-weak);
+    color: var(--accent); display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex: none;
+  }
+  .acc-name { font-weight: 600; color: var(--text); }
+  .acc-sub { font-size: 11.5px; color: var(--faint); margin-top: 1px; }
+  .badge {
+    font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; display: inline-block;
+    white-space: nowrap;
+  }
+  .badge.actif { background: var(--success-weak); color: var(--success); }
+  .badge.dormant { background: var(--warn-weak); color: var(--warn); }
+  .badge.prospect { background: var(--accent-weak); color: var(--accent); }
+  .iso-tag {
+    font-family: var(--font-mono); font-size: 11px; background: var(--canvas);
+    border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; color: var(--muted);
+  }
+  td.num, th.num { text-align: right; }
+  .num-val { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 600; }
+  .owner-cell { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 12.5px; }
+  .owner-dot { width: 20px; height: 20px; border-radius: 50%; background: var(--canvas); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 700; color: var(--muted); }
+
+  .table-foot {
+    display: flex; align-items: center; justify-content: space-between; padding: 10px 22px;
+    border-top: 1px solid var(--border); font-size: 12px; color: var(--faint); flex: none;
+  }
+  .pager { display: flex; gap: 4px; }
+  .pager button {
+    width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--muted); font-size: 11.5px; cursor: pointer; font-family: var(--font-mono);
+  }
+  .pager button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ---------- Screen 2: Deals kanban ---------- */
+  .kanban-scroll { flex: 1; overflow: auto; padding: 18px 22px; }
+  .kanban { display: flex; gap: 14px; height: 100%; min-width: max-content; }
+  .kcol { width: 268px; flex: none; display: flex; flex-direction: column; }
+  .kcol-head {
+    display: flex; align-items: center; gap: 8px; padding: 4px 6px 10px 6px;
+  }
+  .kcol-title { font-size: 12.6px; font-weight: 700; }
+  .kcol-count {
+    font-size: 11px; color: var(--faint); background: var(--canvas); border: 1px solid var(--border);
+    border-radius: 20px; padding: 0px 7px; font-family: var(--font-mono);
+  }
+  .kcol-sum { margin-left: auto; font-size: 11.5px; color: var(--muted); font-family: var(--font-mono); font-weight: 600; }
+  .kcol-bar { height: 3px; border-radius: 3px; margin: 0 6px 10px 6px; background: var(--border); }
+  .kcol-bar span { display: block; height: 100%; border-radius: 3px; }
+  .kcards { display: flex; flex-direction: column; gap: 9px; padding: 0 2px 12px 2px; }
+
+  .kcard {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 12px 13px; box-shadow: var(--shadow-card); cursor: pointer;
+  }
+  .kcard:hover { border-color: var(--border-strong); }
+  .kcard-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .kcard-title { font-weight: 600; font-size: 13px; }
+  .kcard-amount { font-family: var(--font-mono); font-weight: 700; font-size: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .kcard-account { font-size: 11.5px; color: var(--faint); margin-top: 3px; }
+  .kcard-tags { display: flex; gap: 5px; margin-top: 9px; flex-wrap: wrap; }
+  .tag {
+    font-size: 10.5px; font-weight: 600; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;
+  }
+  .tag.essai { background: var(--accent-weak); color: var(--accent); }
+  .tag.essai::before { content: "●"; font-size: 6px; }
+  .tag.risk { background: var(--danger-weak); color: var(--danger); }
+  .kcard-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+  .kcard-date { font-size: 11px; color: var(--faint); }
+  .kcard-owner {
+    width: 21px; height: 21px; border-radius: 50%; background: var(--accent-weak-strong);
+    color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 700;
+  }
+  .kcol-add {
+    border: 1px dashed var(--border-strong); border-radius: var(--radius); padding: 9px;
+    text-align: center; font-size: 12px; color: var(--faint); cursor: pointer; margin: 0 2px;
+  }
+
+  /* ---------- Screen 3: Essai mobile ---------- */
+  .trial-stage {
+    flex: 1; display: flex; justify-content: center; align-items: flex-start;
+    padding: 30px 20px 40px; overflow: auto; background:
+      radial-gradient(circle at 50% 0%, var(--accent-weak) 0%, transparent 60%);
+  }
+  .phone {
+    width: 390px; flex: none; background: var(--canvas); border: 10px solid var(--surface-raised);
+    border-radius: 34px; box-shadow: var(--shadow-pop), 0 0 0 1px var(--border);
+    overflow: hidden; display: flex; flex-direction: column; height: 780px;
+  }
+  .phone-status { display: flex; justify-content: space-between; padding: 8px 20px 2px; font-size: 11px; color: var(--faint); font-family: var(--font-mono); flex: none; }
+  .phone-bar {
+    display: flex; align-items: center; gap: 10px; padding: 6px 16px 12px; flex: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .phone-back { width: 30px; height: 30px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 15px; }
+  .phone-title { font-weight: 700; font-size: 14.5px; }
+  .phone-title .sub { font-size: 11px; color: var(--faint); font-weight: 500; margin-top: 1px; }
+  .phone-scroll { flex: 1; overflow: auto; padding: 16px 16px 100px; display: flex; flex-direction: column; gap: 18px; }
+
+  .field-block { display: flex; flex-direction: column; gap: 8px; }
+  .field-label {
+    font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .field-label .unit { font-family: var(--font-mono); font-weight: 600; color: var(--faint); text-transform: none; letter-spacing: 0; }
+
+  .num-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .num-input {
+    background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--radius);
+    padding: 10px 4px 8px; text-align: center;
+  }
+  .num-input .l { font-size: 10px; color: var(--faint); font-weight: 700; letter-spacing: 0.3px; }
+  .num-input .v { font-family: var(--font-mono); font-size: 19px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .num-input.focus { border-color: var(--accent); background: var(--accent-weak); }
+
+  .wear-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .wear-tile {
+    background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--radius);
+    padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    min-height: 68px; justify-content: center;
+  }
+  .wear-tile .glyph {
+    width: 26px; height: 26px; border-radius: 6px; background: var(--canvas); position: relative;
+  }
+  .wear-tile .lbl { font-size: 10.5px; font-weight: 600; text-align: center; line-height: 1.2; color: var(--muted); }
+  .wear-tile.sel { border-color: var(--accent); background: var(--accent-weak); }
+  .wear-tile.sel .lbl { color: var(--accent); }
+  .wear-tile.sel .glyph { background: var(--accent-weak-strong); }
+
+  .verdict-row { display: flex; gap: 8px; }
+  .verdict-btn {
+    flex: 1; text-align: center; padding: 12px 4px; border-radius: var(--radius);
+    border: 1.5px solid var(--border); font-weight: 700; font-size: 13px; background: var(--surface); color: var(--muted);
+  }
+  .verdict-btn.ok.sel { background: var(--success-weak); border-color: var(--success); color: var(--success); }
+  .verdict-btn.limite.sel { background: var(--warn-weak); border-color: var(--warn); color: var(--warn); }
+  .verdict-btn.ko.sel { background: var(--danger-weak); border-color: var(--danger); color: var(--danger); }
+
+  .photo-row { display: flex; gap: 8px; }
+  .photo-add {
+    width: 68px; height: 68px; border-radius: var(--radius); border: 1.5px dashed var(--border-strong);
+    display: flex; align-items: center; justify-content: center; color: var(--faint); font-size: 20px; flex: none;
+  }
+  .photo-thumb {
+    width: 68px; height: 68px; border-radius: var(--radius); flex: none; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, var(--border-strong), var(--border));
+  }
+  .photo-thumb .cap {
+    position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.55); color: #fff;
+    font-size: 8.5px; padding: 2px 4px; font-weight: 600;
+  }
+
+  .phone-cta {
+    position: sticky; bottom: 0; padding: 12px 16px 16px; background: linear-gradient(to top, var(--canvas) 60%, transparent);
+    flex: none;
+  }
+  .phone-cta button {
+    width: 100%; padding: 14px; border-radius: var(--radius); background: var(--accent); color: #fff;
+    border: none; font-weight: 700; font-size: 14.5px; font-family: inherit;
+  }
+
+  .trial-context {
+    width: 300px; flex: none; margin-left: 26px; padding-top: 10px;
+  }
+  .ctx-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 16px; box-shadow: var(--shadow-card); margin-bottom: 14px;
+  }
+  .ctx-card h3 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--faint); }
+  .ctx-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 12.8px; border-bottom: 1px solid var(--border); }
+  .ctx-row:last-child { border-bottom: none; }
+  .ctx-row .k { color: var(--muted); }
+  .ctx-row .v { font-weight: 600; text-align: right; }
+  .ctx-row .v.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .compare-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 8px 0 4px; }
+  .compare-bar .a { background: var(--faint); }
+  .compare-bar .b { background: var(--success); }
+  .compare-legend { display: flex; justify-content: space-between; font-size: 11px; color: var(--faint); }
+
+  /* ---------- Screen 4: Admin plateforme — marque ---------- */
+  .platform-banner {
+    display: flex; align-items: center; gap: 8px; padding: 9px 22px;
+    background: var(--accent-weak); border-bottom: 1px solid var(--accent-weak-strong);
+    font-size: 12.4px; color: var(--accent); font-weight: 600; flex: none;
+  }
+  .platform-banner .lock { font-size: 12px; }
+  .admin-body { flex: 1; display: flex; min-height: 0; }
+  .tenant-list-col {
+    width: 268px; flex: none; border-right: 1px solid var(--border);
+    overflow: auto; padding: 12px;
+  }
+  .tenant-list-search {
+    display: flex; align-items: center; gap: 7px; background: var(--canvas);
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 10px;
+    color: var(--faint); font-size: 12.4px; margin-bottom: 10px;
+  }
+  .tenant-row {
+    display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--radius-sm);
+    cursor: pointer; border: 1px solid transparent;
+  }
+  .tenant-row:hover { background: var(--canvas); }
+  .tenant-row.sel { background: var(--accent-weak); border-color: var(--accent-weak-strong); }
+  .tenant-avatar {
+    width: 30px; height: 30px; border-radius: 8px; flex: none; display: flex; align-items: center;
+    justify-content: center; font-size: 11px; font-weight: 700; color: #fff;
+  }
+  .tenant-row .t-name { font-weight: 600; font-size: 13px; }
+  .tenant-row .t-plan { font-size: 11px; color: var(--faint); }
+  .tenant-row-add {
+    display: flex; align-items: center; gap: 8px; padding: 9px 10px; margin-top: 4px;
+    border: 1px dashed var(--border-strong); border-radius: var(--radius-sm);
+    color: var(--faint); font-size: 12.4px; cursor: pointer;
+  }
+
+  .editor-col { flex: 1; overflow: auto; padding: 24px 30px; display: flex; gap: 32px; }
+  .editor-form { width: 380px; flex: none; display: flex; flex-direction: column; gap: 22px; }
+  .editor-head { display: flex; align-items: center; gap: 12px; }
+  .editor-head .tenant-avatar { width: 40px; height: 40px; border-radius: 10px; font-size: 14px; }
+  .editor-head h2 { margin: 0; font-size: 16px; }
+  .editor-head .sub { font-size: 12px; color: var(--faint); margin-top: 1px; }
+
+  .field-group { display: flex; flex-direction: column; gap: 8px; }
+  .field-group > label { font-size: 12px; font-weight: 700; color: var(--muted); }
+  .field-hint { font-size: 11.5px; color: var(--faint); margin-top: -2px; }
+
+  .logo-drop {
+    display: flex; align-items: center; gap: 14px; border: 1.5px dashed var(--border-strong);
+    border-radius: var(--radius); padding: 14px; background: var(--canvas);
+  }
+  .logo-drop .logo-preview {
+    width: 52px; height: 52px; border-radius: 10px; background: var(--surface);
+    border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex: none; overflow: hidden;
+  }
+  .logo-drop .txt { font-size: 12.4px; color: var(--muted); }
+  .logo-drop .txt b { color: var(--text); display: block; margin-bottom: 2px; }
+
+  .swatch-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+  .swatch {
+    width: 100%; aspect-ratio: 1; border-radius: 50%; cursor: pointer;
+    border: 2px solid transparent; box-shadow: 0 0 0 1px var(--border) inset;
+    position: relative;
+  }
+  .swatch.sel::after {
+    content: "✓"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 13px; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+  .hex-row { display: flex; align-items: center; gap: 8px; }
+  .hex-row .swatch { width: 30px; flex: none; }
+  .hex-row input {
+    font-family: var(--font-mono); font-size: 13px; border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 7px 9px; background: var(--surface); color: var(--text);
+    width: 110px;
+  }
+  .contrast-pill {
+    font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 20px; display: inline-flex;
+    align-items: center; gap: 5px;
+  }
+  .contrast-pill.ok { background: var(--success-weak); color: var(--success); }
+  .contrast-pill.bad { background: var(--danger-weak); color: var(--danger); }
+
+  .editor-preview { flex: 1; min-width: 0; }
+  .editor-preview h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--faint); margin: 0 0 12px; }
+  .preview-shell {
+    display: flex; height: 400px; border-radius: var(--radius-lg); overflow: hidden;
+    border: 1px solid var(--border); box-shadow: var(--shadow-pop);
+  }
+  .preview-sidebar {
+    width: 190px; flex: none; background: var(--surface); border-right: 1px solid var(--border);
+    padding: 16px 12px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .preview-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .preview-brand .mark {
+    width: 24px; height: 24px; border-radius: 6px; background: var(--preview-accent, var(--accent));
+    flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 700;
+  }
+  .preview-brand .pname { font-weight: 700; font-size: 13px; }
+  .preview-nav-item { font-size: 12px; padding: 7px 9px; border-radius: 5px; color: var(--muted); font-weight: 500; }
+  .preview-nav-item.on { background: color-mix(in srgb, var(--preview-accent, var(--accent)) 12%, var(--surface)); color: var(--preview-accent, var(--accent)); font-weight: 700; }
+  .preview-main { flex: 1; background: var(--canvas); padding: 20px; }
+  .preview-topline { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .preview-topline .t { font-weight: 700; font-size: 14px; }
+  .preview-btn {
+    background: var(--preview-accent, var(--accent)); color: #fff; font-size: 12px; font-weight: 700;
+    padding: 8px 14px; border-radius: 6px; display: inline-block;
+  }
+  .preview-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-top: 12px;
+  }
+  .preview-card .pill { background: color-mix(in srgb, var(--preview-accent, var(--accent)) 14%, var(--surface)); color: var(--preview-accent, var(--accent)); font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 20px; display: inline-block; }
+  .editor-save { display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .kcard, .btn, .chip, .nav-item { transition: background 0.12s ease, border-color 0.12s ease; }
+  }
+</style>
+
+<div class="app">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div>
+        <div class="brand-name">KERF</div>
+        <div class="brand-sub">CRM OUTILS COUPANTS</div>
+      </div>
+    </div>
+
+    <div class="tenant-pill">
+      <span class="dot"></span>
+      <span>Tenant : <b>Métral Diffusion Industrielle</b></span>
+      <span class="chev">▾</span>
+    </div>
+
+    <nav class="primary">
+      <div class="nav-group-label">Vue d'ensemble</div>
+      <div class="nav-item disabled"><span class="ic">▢</span> Tableau de bord <span class="soon">P4</span></div>
+
+      <div class="nav-group-label">CRM</div>
+      <div class="nav-item active" data-target="comptes"><span class="ic">▤</span> Comptes</div>
+      <div class="nav-item disabled"><span class="ic">◐</span> Contacts</div>
+      <div class="nav-item active" data-target="deals"><span class="ic">◧</span> Deals</div>
+
+      <div class="nav-group-label">Métier</div>
+      <div class="nav-item disabled"><span class="ic">▥</span> Produits <span class="soon">P2</span></div>
+      <div class="nav-item disabled"><span class="ic">▦</span> Devis <span class="soon">P2</span></div>
+      <div class="nav-item active" data-target="essai"><span class="ic">⚙</span> Essais</div>
+
+      <div class="nav-group-label">Système</div>
+      <div class="nav-item disabled"><span class="ic">▨</span> Rapports <span class="soon">P4</span></div>
+      <div class="nav-item disabled"><span class="ic">◫</span> Paramètres</div>
+
+      <div class="nav-group-label">Admin plateforme · vous seul</div>
+      <div class="nav-item active" data-target="admin"><span class="ic">🔒</span> Marques &amp; tenants</div>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="user-row">
+        <div class="avatar">BR</div>
+        <div>
+          <div class="name">Benjamin Rouquette</div>
+          <div class="role">Commercial</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="topbar">
+      <div class="screen-switch">
+        <button class="on" data-view="comptes">1 · Comptes</button>
+        <button data-view="deals">2 · Deals</button>
+        <button data-view="essai">3 · Essai (mobile)</button>
+        <button data-view="admin">4 · Admin marque</button>
+      </div>
+      <div class="topbar-spacer"></div>
+      <div class="search-box">🔍 Rechercher un compte, un devis…<span class="kbd" style="margin-left:auto"><kbd>⌘K</kbd></span></div>
+      <button class="btn primary">+ Nouveau</button>
+    </div>
+
+    <!-- ================= VIEW 1 : COMPTES ================= -->
+    <section class="view on" id="view-comptes">
+      <div class="toolbar">
+        <span class="chip active">Tous les comptes <span class="chev">▾</span></span>
+        <span class="chip">Type <span class="chev">▾</span></span>
+        <span class="chip">Statut <span class="chev">▾</span></span>
+        <span class="chip">Propriétaire <span class="chev">▾</span></span>
+        <span class="chip">Mon portefeuille</span>
+        <span class="chip add">+ Filtre</span>
+        <div class="toolbar-spacer"></div>
+        <span class="count-tag">142 comptes</span>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Compte</th>
+              <th>Type</th>
+              <th>Groupe ISO</th>
+              <th>Ville</th>
+              <th>Propriétaire</th>
+              <th>Statut</th>
+              <th class="num">CA annuel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="acc-cell"><div class="acc-logo">ME</div><div><div class="acc-name">Mécaprec SAS</div><div class="acc-sub">Sous-traitance aéronautique</div></div></div></td>
+              <td>Sous-traitant</td>
+              <td><span class="iso-tag">S · M</span></td>
+              <td>Lyon</td>
+              <td><div class="owner-cell"><span class="owner-dot">BR</span> Rouquette</div></td>
+              <td><span class="badge actif">Actif</span></td>
+              <td class="num"><span class="num-val">42 000 €</span></td>
+            </tr>
+            <tr>
+              <td><div class="acc-cell"><div class="acc-logo">SO</div><div><div class="acc-name">Sotrameca</div><div class="acc-sub">Décolletage de précision</div></div></div></td>
+              <td>Atelier d'usinage</td>
+              <td><span class="iso-tag">P</span></td>
+              <td>Cluses</td>
+              <td><div class="owner-cell"><span class="owner-dot">CL</span> Lefebvre</div></td>
+              <td><span class="badge actif">Actif</span></td>
+              <td class="num"><span class="num-val">18 400 €</span></td>
+            </tr>
+            <tr>
+              <td><div class="acc-cell"><div class="acc-logo">FB</div><div><div class="acc-name">Fonderie Blanc</div><div class="acc-sub">Pièces fonte pour BTP</div></div></div></td>
+              <td>Industriel</td>
+              <td><span class="iso-tag">K</span></td>
+              <td>Vierzon</td>
+              <td><div class="owner-cell"><span class="owner-dot">BR</span> Rouquette</div></td>
+              <td><span class="badge dormant">Dormant</span></td>
+              <td class="num"><span class="num-val">6 100 €</span></td>
+            </tr>
+            <tr>
+              <td><div class="acc-cell"><div class="acc-logo">TU</div><div><div class="acc-name">Turbo-Usinage Rhône</div><div class="acc-sub">HRSA, pièces moteur</div></div></div></td>
+              <td>Sous-traitant</td>
+              <td><span class="iso-tag">S · H</span></td>
+              <td>Vienne</td>
+              <td><div class="owner-cell"><span class="owner-dot">CL</span> Lefebvre</div></td>
+              <td><span class="badge prospect">Prospect</span></td>
+              <td class="num"><span class="num-val">—</span></td>
+            </tr>
+            <tr>
+              <td><div class="acc-cell"><div class="acc-logo">AT</div><div><div class="acc-name">Ateliers du Forez</div><div class="acc-sub">Moules et outillages trempés</div></div></div></td>
+              <td>Atelier d'usinage</td>
+              <td><span class="iso-tag">H</span></td>
+              <td>Montbrison</td>
+              <td><div class="owner-cell"><span class="owner-dot">BR</span> Rouquette</div></td>
+              <td><span class="badge actif">Actif</span></td>
+              <td class="num"><span class="num-val">27 850 €</span></td>
+            </tr>
+            <tr>
+              <td><div class="acc-cell"><div class="acc-logo">DI</div><div><div class="acc-name">Diffusion Industrielle Est</div><div class="acc-sub">Distributeur régional</div></div></div></td>
+              <td>Distributeur</td>
+              <td><span class="iso-tag">P · M · K</span></td>
+              <td>Mulhouse</td>
+              <td><div class="owner-cell"><span class="owner-dot">CL</span> Lefebvre</div></td>
+              <td><span class="badge actif">Actif</span></td>
+              <td class="num"><span class="num-val">63 200 €</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-foot">
+        <span>142 résultats · 50 par page</span>
+        <div class="pager">
+          <button class="on">1</button><button>2</button><button>3</button><button>›</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 2 : DEALS ================= -->
+    <section class="view" id="view-deals">
+      <div class="toolbar">
+        <span class="chip active">Pipeline commercial <span class="chev">▾</span></span>
+        <span class="chip">Propriétaire <span class="chev">▾</span></span>
+        <span class="chip">Famille produit <span class="chev">▾</span></span>
+        <div class="toolbar-spacer"></div>
+        <span class="count-tag">27 deals · 312 400 €</span>
+      </div>
+      <div class="kanban-scroll">
+        <div class="kanban">
+
+          <div class="kcol">
+            <div class="kcol-head"><span class="kcol-title">Qualification</span><span class="kcol-count">6</span><span class="kcol-sum">38 200 €</span></div>
+            <div class="kcol-bar"><span style="width:20%;background:var(--faint)"></span></div>
+            <div class="kcards">
+              <div class="kcard">
+                <div class="kcard-top"><span class="kcard-title">Fraisage carters alu</span><span class="kcard-amount">6 400 €</span></div>
+                <div class="kcard-account">Turbo-Usinage Rhône</div>
+                <div class="kcard-tags"><span class="tag">Fraisage</span></div>
+                <div class="kcard-foot"><span class="kcard-date">Clôture 28/08</span><span class="kcard-owner">CL</span></div>
+              </div>
+              <div class="kcard">
+                <div class="kcard-top"><span class="kcard-title">Renouvellement plaquettes</span><span class="kcard-amount">4 900 €</span></div>
+                <div class="kcard-account">Ateliers du Forez</div>
+                <div class="kcard-tags"><span class="tag">Tournage</span></div>
+                <div class="kcard-foot"><span class="kcard-date">Clôture 15/09</span><span class="kcard-owner">BR</span></div>
+              </div>
+            </div>
+            <div class="kcol-add">+ Ajouter un deal</div>
+          </div>
+
+          <div class="kcol">
+            <div class="kcol-head"><span class="kcol-title">Essai en cours</span><span class="kcol-count">7</span><span class="kcol-sum">96 300 €</span></div>
+            <div class="kcol-bar"><span style="width:45%;background:var(--accent)"></span></div>
+            <div class="kcards">
+              <div class="kcard">
+                <div class="kcard-top"><span class="kcard-title">Conversion carbure → céramique</span><span class="kcard-amount">42 000 €</span></div>
+                <div class="kcard-account">Mécaprec SAS</div>
+                <div class="kcard-tags"><span class="tag essai">Essai E-0412</span></div>
+                <div class="kcard-foot"><span class="kcard-date">Clôture 05/09</span><span class="kcard-owner">BR</span></div>
+              </div>
+              <div class="kcard">
+                <div class="kcard-top"><span class="kcard-title">Alésage HRSA — nuance SiAlON</span><span class="kcard-amount">21 500 €</span></div>
+                <div class="kcard-account">Turbo-Usinage Rhône</div>
+                <div class="kcard-tags"><span class="tag essai">Essai E-0409</span><span class="tag risk">Relance due</span></div>
+                <div class="kcard-foot"><span class="kcard-date">Clôture 22/08</span><span class="kcard-owner">CL</span></div>
+              </div>
+            </div>
+            <div class="kcol-add">+ Ajouter un deal</div>
+          </div>
+
+          <div class="kcol">
+            <div class="kcol-head"><span class="kcol-title">Devis envoyé</span><span class="kcol-count">5</span><span class="kcol-sum">71 900 €</span></div>
+            <div class="kcol-bar"><span style="width:65%;background:var(--accent)"></span></div>
+            <div class="kcards">
+              <div class="kcard">
+                <div class="kcard-top"><span class="kcard-title">Foret carbure revêtu — série</span><span class="kcard-amount">18 900 €</span></div>
+                <div class="kcard-account">Sotrameca</div>
+                <div class="kcard-tags"><span class="tag">DV-2026-0142</span></div>
+                <div class="kcard-foot"><span class="kcard-date">Expire 10/08</span><span class="kcard-owner">BR</span></div>
+              </div>
+            </div>
+            <div class="kcol-add">+ Ajouter un deal</div>
+          </div>
+
+          <div class="kcol">
+            <div class="kcol-head"><span class="kcol-title">Négociation</span><span class="kcol-count">4</span><span class="kcol-sum">54 000 €</span></div>
+            <div class="kcol-bar"><span style="width:80%;background:var(--accent)"></span></div>
+            <div class="kcards">
+              <div class="kcard">
+                <div class="kcard-top"><span class="kcard-title">Accord-cadre plaquettes 2026</span><span class="kcard-amount">54 000 €</span></div>
+                <div class="kcard-account">Diffusion Industrielle Est</div>
+                <div class="kcard-tags"><span class="tag">Compte clé</span></div>
+                <div class="kcard-foot"><span class="kcard-date">Clôture 30/08</span><span class="kcard-owner">CL</span></div>
+              </div>
+            </div>
+            <div class="kcol-add">+ Ajouter un deal</div>
+          </div>
+
+          <div class="kcol">
+            <div class="kcol-head"><span class="kcol-title">Gagné</span><span class="kcol-count">5</span><span class="kcol-sum">52 000 €</span></div>
+            <div class="kcol-bar"><span style="width:100%;background:var(--success)"></span></div>
+            <div class="kcards">
+              <div class="kcard" style="opacity:0.75">
+                <div class="kcard-top"><span class="kcard-title">Rainurage inserts céramique</span><span class="kcard-amount">14 200 €</span></div>
+                <div class="kcard-account">Mécaprec SAS</div>
+                <div class="kcard-tags"><span class="tag" style="background:var(--success-weak);color:var(--success)">Gagné le 02/07</span></div>
+                <div class="kcard-foot"><span class="kcard-date">&nbsp;</span><span class="kcard-owner">BR</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 3 : ESSAI (mobile) ================= -->
+    <section class="view" id="view-essai" style="flex-direction:row;">
+      <div class="trial-stage" style="flex:1;">
+        <div class="phone">
+          <div class="phone-status"><span>9:41</span><span>●●●●  Wi-Fi  82%</span></div>
+          <div class="phone-bar">
+            <div class="phone-back">‹</div>
+            <div>
+              <div class="phone-title">Essai E-0412 · Passe 3</div>
+              <div class="sub">Mécaprec SAS — fraisage HRSA</div>
+            </div>
+          </div>
+
+          <div class="phone-scroll">
+
+            <div class="field-block">
+              <div class="field-label">Paramètres de coupe</div>
+              <div class="num-grid">
+                <div class="num-input focus"><div class="l">VC</div><div class="v">220</div><div class="l">m/min</div></div>
+                <div class="num-input"><div class="l">FN</div><div class="v">0,18</div><div class="l">mm/tr</div></div>
+                <div class="num-input"><div class="l">AP</div><div class="v">0,50</div><div class="l">mm</div></div>
+              </div>
+            </div>
+
+            <div class="field-block">
+              <div class="field-label">Outil testé <span class="unit">SiAlON · rôle candidat</span></div>
+              <div class="ctx-row" style="border:1px solid var(--border); border-radius:8px; padding:10px 12px; background:var(--surface)">
+                <span class="k">CTCP160408 — nuance PST</span>
+                <span class="v mono">2 arêtes/plaquette</span>
+              </div>
+            </div>
+
+            <div class="field-block">
+              <div class="field-label">Mode d'usure observé</div>
+              <div class="wear-grid">
+                <div class="wear-tile"><div class="glyph"></div><div class="lbl">Usure frontale</div></div>
+                <div class="wear-tile sel"><div class="glyph"></div><div class="lbl">Entaille</div></div>
+                <div class="wear-tile"><div class="glyph"></div><div class="lbl">Écaillage</div></div>
+                <div class="wear-tile"><div class="glyph"></div><div class="lbl">Arête rapportée</div></div>
+                <div class="wear-tile"><div class="glyph"></div><div class="lbl">Fissuration therm.</div></div>
+                <div class="wear-tile"><div class="glyph"></div><div class="lbl">Rupture</div></div>
+              </div>
+            </div>
+
+            <div class="field-block">
+              <div class="field-label">Photo de l'arête</div>
+              <div class="photo-row">
+                <div class="photo-thumb"><span class="cap">Avant</span></div>
+                <div class="photo-thumb"><span class="cap">Après</span></div>
+                <div class="photo-add">＋</div>
+              </div>
+            </div>
+
+            <div class="field-block">
+              <div class="field-label">Verdict de la passe</div>
+              <div class="verdict-row">
+                <div class="verdict-btn ok">OK</div>
+                <div class="verdict-btn limite sel">Limite</div>
+                <div class="verdict-btn ko">KO</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="phone-cta"><button>Enregistrer la passe</button></div>
+        </div>
+      </div>
+
+      <div class="trial-context">
+        <div class="ctx-card">
+          <h3>Fiche essai E-0412</h3>
+          <div class="ctx-row"><span class="k">Compte</span><span class="v">Mécaprec SAS</span></div>
+          <div class="ctx-row"><span class="k">Opération</span><span class="v">Fraisage</span></div>
+          <div class="ctx-row"><span class="k">Matière</span><span class="v">HRSA — Inconel 718</span></div>
+          <div class="ctx-row"><span class="k">Dureté</span><span class="v mono">44 HRC</span></div>
+          <div class="ctx-row"><span class="k">Réf. référence</span><span class="v">Carbure revêtu</span></div>
+          <div class="ctx-row"><span class="k">Réf. candidat</span><span class="v">SiAlON PST</span></div>
+        </div>
+        <div class="ctx-card">
+          <h3>Comparatif durée de vie</h3>
+          <div class="ctx-row"><span class="k">Carbure (référence)</span><span class="v mono">6 min / arête</span></div>
+          <div class="compare-bar"><span class="a" style="width:35%"></span><span style="width:65%;background:transparent"></span></div>
+          <div class="ctx-row" style="border:none; padding-top:2px;"><span class="k">SiAlON (candidat)</span><span class="v mono">17 min / arête</span></div>
+          <div class="compare-bar"><span class="b" style="width:100%"></span></div>
+          <div class="compare-legend"><span>0</span><span>17 min</span></div>
+        </div>
+        <div class="ctx-card">
+          <h3>Économie estimée</h3>
+          <div class="ctx-row"><span class="k">Coût / pièce candidat</span><span class="v mono">2,84 €</span></div>
+          <div class="ctx-row"><span class="k">Coût / pièce référence</span><span class="v mono">4,10 €</span></div>
+          <div class="ctx-row"><span class="k">Économie annuelle</span><span class="v mono" style="color:var(--success)">18 900 €</span></div>
+          <div class="ctx-row"><span class="k">Retour sur investissement</span><span class="v mono">2,1 mois</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 4 : ADMIN PLATEFORME — MARQUE ================= -->
+    <section class="view" id="view-admin">
+      <div class="platform-banner"><span class="lock">🔒</span> Console admin plateforme — visible et modifiable par vous seul. Aucun client n'a accès à cet écran.</div>
+      <div class="admin-body">
+        <div class="tenant-list-col">
+          <div class="tenant-list-search">🔍 Rechercher un tenant…</div>
+
+          <div class="tenant-row sel">
+            <div class="tenant-avatar" style="background:#2A5C86">TM</div>
+            <div><div class="t-name">Turbo-Méca Distribution</div><div class="t-plan">Plan Distributeur · actif</div></div>
+          </div>
+          <div class="tenant-row">
+            <div class="tenant-avatar" style="background:#8B5E1F">FN</div>
+            <div><div class="t-name">Fournitures du Nord</div><div class="t-plan">Plan Distributeur · actif</div></div>
+          </div>
+          <div class="tenant-row">
+            <div class="tenant-avatar" style="background:#4A6B4E">Ac</div>
+            <div><div class="t-name">Acronis Outillage</div><div class="t-plan">Plan Fabricant · essai</div></div>
+          </div>
+          <div class="tenant-row">
+            <div class="tenant-avatar" style="background:#5B5F97">Métral Diffusion Industrielle</div>
+            <div><div class="t-name">Métral Diffusion Industrielle</div><div class="t-plan">Plan Distributeur · actif</div></div>
+          </div>
+          <div class="tenant-row-add">＋ Nouveau tenant</div>
+        </div>
+
+        <div class="editor-col">
+          <div class="editor-form">
+            <div class="editor-head">
+              <div class="tenant-avatar" style="background:#2A5C86">TM</div>
+              <div>
+                <h2>Turbo-Méca Distribution</h2>
+                <div class="sub">turbo-meca.kerf.app</div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label>Logo</label>
+              <div class="logo-drop">
+                <div class="logo-preview">TM</div>
+                <div class="txt"><b>logo-turbo-meca.svg</b>Glisser un fichier ou cliquer pour remplacer · fond transparent recommandé</div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label>Couleur d'accent</label>
+              <div class="field-hint">Une seule couleur — les variantes (survol, fonds) sont calculées automatiquement.</div>
+              <div class="swatch-grid">
+                <div class="swatch sel" style="background:#2A5C86"></div>
+                <div class="swatch" style="background:#1F7A6B"></div>
+                <div class="swatch" style="background:#6B4FA0"></div>
+                <div class="swatch" style="background:#8B5E1F"></div>
+                <div class="swatch" style="background:#4A6B4E"></div>
+                <div class="swatch" style="background:#B3392C"></div>
+                <div class="swatch" style="background:#3D5A73"></div>
+              </div>
+              <div class="hex-row">
+                <div class="swatch sel" style="background:#2A5C86"></div>
+                <input type="text" value="#2A5C86" spellcheck="false">
+                <span class="contrast-pill ok" id="contrastPill">✓ Contraste conforme</span>
+              </div>
+            </div>
+
+            <div class="editor-save">
+              <button class="btn">Annuler</button>
+              <button class="btn primary">Enregistrer la marque</button>
+            </div>
+          </div>
+
+          <div class="editor-preview">
+            <h3>Aperçu en temps réel</h3>
+            <div class="preview-shell">
+              <div class="preview-sidebar">
+                <div class="preview-brand"><div class="mark" id="previewMark">TM</div><div class="pname">Turbo-Méca</div></div>
+                <div class="preview-nav-item on">Comptes</div>
+                <div class="preview-nav-item">Deals</div>
+                <div class="preview-nav-item">Produits</div>
+                <div class="preview-nav-item">Essais</div>
+              </div>
+              <div class="preview-main">
+                <div class="preview-topline"><span class="t">Pipeline commercial</span><span class="preview-btn">+ Nouveau deal</span></div>
+                <div class="preview-card">
+                  <span class="pill">Essai en cours</span>
+                  <div style="margin-top:8px; font-weight:700; font-size:13px;">Conversion carbure → céramique</div>
+                  <div style="font-size:11.5px; color:var(--faint); margin-top:2px;">42 000 €</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.screen-switch button');
+  const navItems = document.querySelectorAll('.nav-item[data-target]');
+  const views = {
+    comptes: document.getElementById('view-comptes'),
+    deals: document.getElementById('view-deals'),
+    essai: document.getElementById('view-essai'),
+    admin: document.getElementById('view-admin')
+  };
+
+  function show(name) {
+    Object.entries(views).forEach(([k, el]) => el.classList.toggle('on', k === name));
+    buttons.forEach(b => b.classList.toggle('on', b.dataset.view === name));
+    navItems.forEach(n => n.classList.toggle('active', n.dataset.target === name));
+  }
+  buttons.forEach(b => b.addEventListener('click', () => show(b.dataset.view)));
+  navItems.forEach(n => n.addEventListener('click', () => show(n.dataset.target)));
+
+  document.querySelectorAll('.wear-tile').forEach(t => t.addEventListener('click', () => {
+    t.parentElement.querySelectorAll('.wear-tile').forEach(x => x.classList.remove('sel'));
+    t.classList.add('sel');
+  }));
+  document.querySelectorAll('.verdict-btn').forEach(t => t.addEventListener('click', () => {
+    t.parentElement.querySelectorAll('.verdict-btn').forEach(x => x.classList.remove('sel'));
+    t.classList.add('sel');
+  }));
+
+  // ---- Admin marque : choix de couleur avec contraste live ----
+  const previewShell = document.querySelector('#view-admin .preview-shell');
+  const hexInput = document.querySelector('#view-admin .hex-row input');
+  const contrastPill = document.getElementById('contrastPill');
+  const allSwatches = document.querySelectorAll('#view-admin .swatch');
+
+  function luminance(hex) {
+    const c = hex.replace('#', '');
+    const [r, g, b] = [0, 2, 4].map(i => parseInt(c.substr(i, 2), 16) / 255)
+      .map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+  function contrastRatio(hex) {
+    const L1 = luminance(hex), L2 = 1; // blanc
+    return (L2 + 0.05) / (L1 + 0.05);
+  }
+  function applyAccent(hex) {
+    if (previewShell) previewShell.style.setProperty('--preview-accent', hex);
+    const mark = document.getElementById('previewMark');
+    if (mark) mark.style.background = hex;
+    hexInput.value = hex.toUpperCase();
+    allSwatches.forEach(s => s.classList.toggle('sel', rgbToHex(getComputedStyle(s).backgroundColor) === hex.toUpperCase()));
+    const ratio = contrastRatio(hex);
+    if (ratio >= 3.0) {
+      contrastPill.className = 'contrast-pill ok';
+      contrastPill.textContent = '✓ Contraste conforme';
+    } else {
+      contrastPill.className = 'contrast-pill bad';
+      contrastPill.textContent = '⚠ Contraste insuffisant';
+    }
+  }
+  function rgbToHex(rgb) {
+    const m = rgb.match(/\d+/g);
+    if (!m) return '';
+    return '#' + m.slice(0, 3).map(n => parseInt(n).toString(16).padStart(2, '0')).join('').toUpperCase();
+  }
+  allSwatches.forEach(s => s.addEventListener('click', () => applyAccent(rgbToHex(getComputedStyle(s).backgroundColor))));
+  if (hexInput) hexInput.addEventListener('input', () => {
+    if (/^#[0-9A-Fa-f]{6}$/.test(hexInput.value)) applyAccent(hexInput.value);
+  });
+
+  document.querySelectorAll('.tenant-row').forEach(row => row.addEventListener('click', () => {
+    document.querySelectorAll('.tenant-row').forEach(r => r.classList.remove('sel'));
+    row.classList.add('sel');
+  }));
+</script>

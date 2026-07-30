@@ -1,0 +1,55 @@
+{
+  "name": "kerf",
+  "version": "0.1.0",
+  "private": true,
+  "description": "KERF — CRM SaaS multi-tenant pour l'industrie de l'outil coupant",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:rls": "vitest run tests/rls",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "next": "15.1.6",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "@supabase/supabase-js": "^2.47.10",
+    "@supabase/ssr": "^0.5.2",
+    "drizzle-orm": "^0.38.3",
+    "postgres": "^3.4.5",
+    "zod": "^3.24.1",
+    "react-hook-form": "^7.54.2",
+    "@hookform/resolvers": "^3.9.1",
+    "next-intl": "^3.26.3",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0",
+    "class-variance-authority": "^0.7.1",
+    "lucide-react": "^0.469.0",
+    "@react-pdf/renderer": "^4.1.6",
+    "resend": "^4.0.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.4",
+    "@types/react-dom": "^19.0.2",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "drizzle-kit": "^0.30.1",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "15.1.6",
+    "vitest": "^2.1.8",
+    "dotenv": "^16.4.7"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Tests unitaires (domaine)
+        run: npx vitest run tests/domain
+
+      # Nécessite une base Supabase de test (voir .env.example) — désactivée
+      # tant que TEST_DATABASE_URL n'est pas configuré en secret du repo.
+      # Ne pas retirer cette étape : c'est le garde-fou qui empêche une
+      # table sans policy RLS d'être mergée sans être détectée.
+      - name: Tests d'isolation RLS
+        if: ${{ vars.TEST_DATABASE_URL != '' }}
+        run: npm run test:rls
+        env:
+          TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
