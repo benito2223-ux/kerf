@@ -1,5 +1,24 @@
 # KERF — Journal d'avancement
 
+## 2026-07-30 (nuit, encore plus tard) — 404 sur le lien nu, root page ajoutée
+
+Benjamin a signalé un 404 sur le lien Vercel donné tel quel. Cause réelle :
+il n'existait aucune page pour `/` — seules les sous-routes existaient
+(`/dev-connexion`, `/[tenant]/...`). Un lien nu tombait donc sur un vrai
+404, pas un problème de déploiement.
+
+Ajout de `app/page.tsx` : redirige vers le tenant de la session en cours
+si connecté, sinon vers `/dev-connexion` (si `ENABLE_DEV_AUTH=1`) ou
+`/connexion` sinon. Bug intercepté avant de tester : la première version
+redirigeait vers l'**ID** du tenant au lieu de son **slug** — corrigé avec
+une nouvelle requête `getTenantSlugById` (`lib/db/queries.ts`). Vérifié en
+local : un utilisateur déjà connecté atterrissant sur `/` est bien
+redirigé vers son tableau de bord (`/metral-diffusion-industrielle`) sans
+erreur. `next build` confirme que `/` est désormais une route dynamique
+(plus de tentative de pré-génération statique qui aurait échoué).
+
+---
+
 ## 2026-07-30 (nuit, très tard) — Déploiement Vercel réel, faille Next.js corrigée
 
 Benjamin voulait tester sur Surge — rappel que Surge ne sert que du
