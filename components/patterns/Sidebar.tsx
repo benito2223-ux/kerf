@@ -24,7 +24,7 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
     label: "CRM",
     items: [
       { label: "Comptes", href: "comptes" },
-      { label: "Contacts", soon: "P1" },
+      { label: "Contacts", href: "contacts" },
       { label: "Deals", href: "deals" },
     ],
   },

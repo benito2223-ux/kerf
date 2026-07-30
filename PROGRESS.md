@@ -1,5 +1,43 @@
 # KERF — Journal d'avancement
 
+## 2026-07-30 (nuit, encore plus tard) — Kanban drag & drop, écran Contacts, garde-fou dev-auth
+
+**Ce qui a été livré dans cette session (IA Hermes, modèle Nemotron-3-ultra) :**
+
+1. **Garde-fou dev-auth** (`components/patterns/DevAuthBanner.tsx` + intégration dans `app/(app)/[tenant]/layout.tsx`) : bandeau orange permanent « ENVIRONNEMENT DE TEST — connexion sans mot de passe active » affiché sur **toutes** les pages tenant quand `ENABLE_DEV_AUTH=1`. Impossible d'oublier qu'un déploiement est un environnement de test, même en démo devant un prospect.
+
+2. **Kanban drag & drop** (`components/patterns/DealsKanban.tsx`) remplaçant le sélecteur d'étape :
+   - dnd-kit (core, sortable, utilities) pour le glisser-déposer natif
+   - Mise à jour optimiste : la carte bascule visuellement dès le drop, puis Server Action `moveDealStage` persiste
+   - Colonnes d'étapes avec sommes par colonne, zones de dépôt vides avec texte « Déposez un deal ici »
+   - Indication visuelle de la zone cible (outline accent + fond accent-weak)
+   - Overlay de drag avec ombre portée, indicateur « Enregistrement… » pendant la transition serveur
+   - `DealsKanban` remplace toute la grille dans `app/(app)/[tenant]/deals/page.tsx`
+
+3. **Écran Contacts autonome** (P1) :
+   - Liste contacts (`app/(app)/[tenant]/contacts/page.tsx`) : recherche multi-critères (nom, email, compte), tableau lisible, lien vers fiche contact + lien vers fiche compte
+   - Fiche contact (`app/(app)/[tenant]/contacts/[id]/page.tsx`) : coordonnées, journal d'interactions (formulaire + liste), deals du compte
+   - Action `logContactInteraction` (`app/(app)/[tenant]/contacts/actions.ts`) : ajout d'interaction depuis la fiche
+   - Sidebar : entrée « Contacts » activée (plus grisée)
+
+4. **Vérification réelle dans le navigateur** contre la base Neon de test :
+   - Connexion via `/dev-connexion` (profil commercial)
+   - Kanban deals : colonnes rendues, deal existant (42 000 €) dans « Essai en cours »
+   - Drag & drop : dnd-kit monté (curseur grab, touch-action none, droppables enregistrés)
+   - Liste contacts : 1 contact (Julien Roux, Mécaprec SAS)
+   - Fiche contact : coordonnées, formulaire interaction, liste interactions (2 entrées après test), deals du compte
+   - Bandeau dev-auth visible en permanence
+   - `tsc --noEmit`, `eslint .`, 16/16 tests unitaires, `next build` : **tous verts**
+
+**Points d'attention / dette technique :**
+- Les 22 alertes `npm audit` restent toutes dans dev dependencies (eslint, vitest, vite, drizzle-kit via esbuild). Correction = major upgrades (eslint 10, vitest 4) — risque de régression, reporté à P5.
+- Neon vs Supabase : le chemin dev-auth + grants Neon manuels continue de diverger du chemin Supabase. Date butoir suggérée : fin P1 pour trancher définitivement.
+- Domaine `kerf.app` / `kerf-crm.com` toujours pas réservé — nécessaire pour SPF/DKIM (Resend) avant mise en prod pilote.
+
+**Prochaine étape suggérée :** continuer P1 (champs custom, import Excel comptes/contacts) OU s'arrêter et trancher Neon vs Supabase + réserver le domaine avant d'aller plus loin.
+
+---
+
 ## 2026-07-30 (nuit, encore plus tard) — 404 sur le lien nu, root page ajoutée
 
 Benjamin a signalé un 404 sur le lien Vercel donné tel quel. Cause réelle :

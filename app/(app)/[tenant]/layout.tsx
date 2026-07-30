@@ -3,6 +3,7 @@ import { getTenantBySlug, getTenantIdBySlug } from "../../../lib/db/queries";
 import { requireTenantMatch } from "../../../lib/auth/guard";
 import { deriveAccentTokens, meetsContrastThreshold } from "../../../lib/branding/derive-accent";
 import { Sidebar } from "../../../components/patterns/Sidebar";
+import { DevAuthBanner } from "../../../components/patterns/DevAuthBanner";
 
 export default async function TenantLayout({
   children,
@@ -51,7 +52,10 @@ export default async function TenantLayout({
         userLabel={session.email ?? "Utilisateur"}
         role={session.role!}
       />
-      <div style={{ flex: 1, minWidth: 0 }}>{children}</div>
+      <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+        <DevAuthBanner />
+        <div style={{ flex: 1, minHeight: 0 }}>{children}</div>
+      </div>
     </div>
   );
 }

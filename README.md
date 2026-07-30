@@ -63,5 +63,6 @@ et `getSession()` ignore entièrement ce mécanisme.
 
 Socle (P0) : schéma de données complet, isolation RLS, auth, résolution de
 tenant, layout applicatif, personnalisation de marque (application runtime).
-Rien au-delà — pas de CRM, catalogue, devis ou essais encore construits.
+P1 (CRM core) : **Comptes, Deals (kanban drag & drop), Contacts (liste + fiche + interactions)** — fonctionnels et testés.
+P2 (Catalogue & devis), P3 (Essais), P4 (Reporting) : pas commencés.
 Détail dans `PROGRESS.md`.
