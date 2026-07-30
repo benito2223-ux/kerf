@@ -1,5 +1,58 @@
 # KERF — Journal d'avancement
 
+## 2026-07-30 (nuit, très tard) — Déploiement Vercel réel, faille Next.js corrigée
+
+Benjamin voulait tester sur Surge — rappel que Surge ne sert que du
+statique, incapable de faire tourner cette app (auth, Server Actions,
+requêtes base à chaque page). Il était déjà connecté à Vercel sur son
+Chrome et a donné carte blanche : déploiement fait en pilotant son
+navigateur réel (Claude in Chrome), pas le navigateur sandboxé habituel —
+nécessaire puisque la session Vercel n'existe que là.
+
+**Ce qui a été fait :**
+- Import du repo GitHub `benito2223-ux/kerf` dans Vercel (intégration
+  GitHub déjà autorisée, aucune création de compte nécessaire).
+- Variables d'environnement posées manuellement dans l'interface Vercel :
+  `DATABASE_URL` / `ENABLE_DEV_AUTH=1` / `DEV_SESSION_SECRET` (même base
+  Neon de test qu'en local) + `NEXT_PUBLIC_SUPABASE_URL`/`ANON_KEY` factices
+  pour éviter tout crash au build (mode Supabase inutilisé tant que
+  `ENABLE_DEV_AUTH=1`).
+- **Premier déploiement refusé par Vercel** — pas un bug applicatif : Next.js
+  15.1.6 (version fixée depuis le tout début du projet) est vulnérable à
+  une faille critique connue, CVE-2025-29927 (contournement d'authentification
+  via middleware). Vercel bloque au niveau plateforme le déploiement des
+  versions vulnérables détectées.
+- **Corrigé** : mise à jour vers `next@15.5.22` (dernière stable de la même
+  ligne 15.x, pas de saut vers la 16 majeure — moins de risque de régression
+  sans pouvoir tout retester). Profité de l'occasion pour corriger aussi une
+  injection SQL connue dans `drizzle-orm` (<0.45.2 → `^0.45.2`), toujours
+  dans la même ligne 0.x. `tsc`, `eslint`, les 16 tests unitaires, les 3
+  tests RLS contre Neon et `next build` repassés verts après la mise à jour.
+- Redéploiement automatique déclenché par le `git push` (intégration
+  GitHub ↔ Vercel active) — statut **Ready**.
+
+**Vérifié pour de vrai sur l'URL publique** (pas seulement en local) :
+`https://kerf-git-main-benito2223-6344s-projects.vercel.app` — connexion
+via `/dev-connexion`, redirection vers le tableau de bord du tenant, et
+`/metral-diffusion-industrielle/comptes` affiche bien le compte Mécaprec
+SAS créé lors de la session précédente : c'est la **même base Neon** que
+le test local, pas une base à part.
+
+**Pas encore fait / à savoir :**
+- Il reste 22 alertes `npm audit` non traitées — uniquement des dépendances
+  de dev/CI (eslint, vitest/vite, xlsx), sans exposition en production.
+  Pas bloquant, mais à ne pas oublier avant une vraie mise en production
+  chez un client.
+- `ENABLE_DEV_AUTH=1` est actif sur ce déploiement Vercel — **rappel
+  impératif** : ne jamais laisser cette variable active sur un déploiement
+  destiné à un client réel (elle désactive toute vérification de mot de
+  passe). Ce déploiement Vercel est un environnement de test, pas un
+  début de mise en production.
+- Chaque futur `git push` sur `main` redéploiera automatiquement sur cette
+  même URL Vercel — en avoir conscience avant de pousser du code cassé.
+
+---
+
 ## 2026-07-30 (nuit, tard) — Première vérification réelle dans le navigateur
 
 Benjamin a demandé de tester l'app réellement. Un projet Supabase gratuit
